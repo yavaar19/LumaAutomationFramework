@@ -153,7 +153,7 @@ public class RegistrationPageTest extends BaseTest {
 
     }
 
-    @Test
+    @Test(retryAnalyzer = Retry.class)
     public void firstNameRegistrationWithSpecialCharacter() throws InterruptedException {
 
         email = getEmail();

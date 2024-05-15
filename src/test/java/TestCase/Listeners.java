@@ -28,6 +28,7 @@ public class Listeners extends Screenshot implements ITestListener {
         ITestListener.super.onTestStart(result);
 
         test = extent.createTest(result.getMethod().getMethodName());
+        test.log(Status.INFO, "Test started");
         threadLocal.set(test);
 
     }
