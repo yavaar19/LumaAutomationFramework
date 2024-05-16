@@ -9,6 +9,9 @@ public class MyAccountPage extends BasePage {
     @FindBy(xpath = "//div[contains(text(), 'Thank you')]")
     private WebElement registrationSuccessMessage;
 
+    @FindBy(xpath = "//span[text()='My Account']")
+    private WebElement myAccountHeader;
+
     public MyAccountPage(WebDriver driver) {
 
         super(driver);
@@ -21,6 +24,5 @@ public class MyAccountPage extends BasePage {
         return registrationSuccessMessage.getText();
 
     }
-
 
 }

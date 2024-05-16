@@ -4,18 +4,15 @@ import PageObject.RegistrationPage;
 import PageObject.MyAccountPage;
 import TestCase.BaseTest;
 import TestCase.Retry;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.logging.LogEntries;
 import org.openqa.selenium.logging.LogEntry;
 import org.openqa.selenium.logging.LogType;
 import org.testng.Assert;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.util.List;
 import java.util.Objects;
@@ -50,6 +47,8 @@ public class RegistrationPageTest extends BaseTest {
 
         if (successMessage.equals("Thank you for registering with Main Website Store.")) {
 
+            readConfig.setFirstName(firstName);
+            readConfig.setLastName(lastName);
             readConfig.setLoginEmail(email);
             readConfig.setLoginPassword(password);
             readConfig.saveConfig();
@@ -622,12 +621,12 @@ public class RegistrationPageTest extends BaseTest {
     @Test
     public void brokenLinksRegistration() throws IOException {
 
+        SoftAssert softAssert = new SoftAssert();
+
         registrationPage = homePage.clickCreateAccountHeaderButton();
 
-        List<String> filteredLinks = registrationPage.getallLinks().stream().filter(p -> !p.getAttribute("rel").contains("nofollow"))
+        List<String> filteredLinks = registrationPage.getallLinks().stream()
                 .map(p -> p.getAttribute("href")).filter(Objects::nonNull).toList();
-
-        SoftAssert softAssert = new SoftAssert();
 
         for (String url : filteredLinks) {
 

@@ -41,6 +41,18 @@ public class ReadConfig {
 
     }
 
+    public String getFirstName() {
+
+        return properties.getProperty("FIRST_NAME");
+
+    }
+
+    public String getLastName() {
+
+        return properties.getProperty("LAST_NAME");
+
+    }
+
     public void setLoginEmail(String value) {
 
         properties.setProperty("LOGIN_EMAIL", value);
@@ -50,6 +62,18 @@ public class ReadConfig {
     public void setLoginPassword(String value) {
 
         properties.setProperty("LOGIN_PASSWORD", value);
+
+    }
+
+    public void setFirstName(String value) {
+
+        properties.setProperty("FIRST_NAME", value);
+
+    }
+
+    public void setLastName(String value) {
+
+        properties.setProperty("LAST_NAME", value);
 
     }
 

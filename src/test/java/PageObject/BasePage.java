@@ -19,7 +19,10 @@ public class BasePage {
     @FindBy(xpath = "(//a[contains(text(),'Create an Account')])")
     private WebElement createAccountHeaderButton;
 
-    @FindBy(css = "a")
+    @FindBy(css = "span.logged-in")
+    private WebElement welcomeMessageHeader;
+
+    @FindBy(css = "a:not([rel='nofollow noopener sponsored'])")
     private List<WebElement> allLinks;
 
     protected WebDriver driver;
@@ -39,6 +42,21 @@ public class BasePage {
         waitForVisibilityOfElement(createAccountHeaderButton);
         createAccountHeaderButton.click();
         return new RegistrationPage(driver);
+
+    }
+
+    public LogInPage clickSignInHeaderButton() {
+
+        waitForVisibilityOfElement(signInHeaderButton);
+        signInHeaderButton.click();
+        return new LogInPage(driver);
+
+    }
+
+    public String getWelcomeMessageHeader() {
+
+        waitForVisibilityOfElement(welcomeMessageHeader);
+        return welcomeMessageHeader.getText();
 
     }
 
