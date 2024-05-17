@@ -1,4 +1,3 @@
-# LumaAutomationFramework
 # Luma Test Automation Framework
 
 This project is a test automation of an e-commerce website called Luma. It is a online store strictly for test automation scripts. Tools that were used to implement the framework are: Maven, Selenium, TestNG, Extent Reports and Apache POI. The test can be run on any IDE. The test should preferably be run using maven commands from the CLI. Please make sure to have Java and Maven installed on your system as well as have set their home path variables.
