@@ -1,9 +1,7 @@
 package Utilities;
 
-
 import com.github.javafaker.Faker;
 
-import static net.andreinc.mockneat.unit.user.Emails.emails;
 
 public class StringGenerator {
 
@@ -29,7 +27,7 @@ public class StringGenerator {
 
     public static String getPassword() {
 
-        return faker.internet().password(9, 12, true, true);
+        return faker.internet().password(9, 12, true, true).replace("\\", "T").concat("Hz");
 
     }
 

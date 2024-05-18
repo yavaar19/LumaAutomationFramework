@@ -1,16 +1,14 @@
 package TestCase.UnitTest;
 
 import DataReader.DataReader;
-import PageObject.ForgotPasswordPage;
 import PageObject.HomePage;
 import PageObject.LogInPage;
 import TestCase.BaseTest;
+import TestCase.Retry;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.logging.LogEntries;
 import org.openqa.selenium.logging.LogEntry;
 import org.openqa.selenium.logging.LogType;
-import org.openqa.selenium.logging.Logs;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -18,7 +16,6 @@ import org.testng.asserts.SoftAssert;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.Objects;
@@ -28,8 +25,8 @@ public class LogInPageTest extends BaseTest {
 
     // Positive TestCases - Happy Path
 
-    @Test
-    public void successfulLogin() throws InterruptedException {
+    @Test(groups = {"smoke"}, retryAnalyzer = Retry.class)
+    public void successfulLogin() {
 
         LogInPage logInPage = homePage.clickSignInHeaderButton();
 
@@ -77,7 +74,7 @@ public class LogInPageTest extends BaseTest {
     }
 
     @Test
-    public void blankCredentialsLogin() throws InterruptedException {
+    public void blankCredentialsLogin() {
 
         LogInPage logInPage = homePage.clickSignInHeaderButton();
 
@@ -87,7 +84,6 @@ public class LogInPageTest extends BaseTest {
         String passwordError = logInPage.getPasswordError();
 
         SoftAssert softAssert = new SoftAssert();
-
         softAssert.assertEquals(emailError, "This is a required field.");
         softAssert.assertEquals(passwordError, "This is a required field.");
 
@@ -96,7 +92,7 @@ public class LogInPageTest extends BaseTest {
     }
 
     @Test
-    public void blankEmailWithPasswordLogin() {
+    public void blankEmailWithPasswordLogin() throws InterruptedException {
 
         LogInPage logInPage = homePage.clickSignInHeaderButton();
 
@@ -110,7 +106,7 @@ public class LogInPageTest extends BaseTest {
 
     }
 
-    @Test
+    @Test(retryAnalyzer = Retry.class)
     public void blankPasswordWithEmailLogin() {
 
         LogInPage logInPage = homePage.clickSignInHeaderButton();
@@ -219,7 +215,7 @@ public class LogInPageTest extends BaseTest {
     }
 
     @Test
-    public void getConsoleErrorLogsLogin() {
+    public void consoleErrorLogsLogin() {
 
         SoftAssert softAssert = new SoftAssert();
 

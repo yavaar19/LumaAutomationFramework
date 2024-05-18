@@ -29,10 +29,13 @@ public class BasePage {
 
     private WebDriverWait wait;
 
+    private final By welcomeMessageHeaderLocator = By.cssSelector("span.logged-in");
+
+
     public BasePage(WebDriver driver) {
 
         this.driver = driver;
-        wait = new WebDriverWait(driver, Duration.ofSeconds(6));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         PageFactory.initElements(driver, this);
 
     }
@@ -55,7 +58,9 @@ public class BasePage {
 
     public String getWelcomeMessageHeader() {
 
+        waitForElementToBeLocated(welcomeMessageHeaderLocator);
         waitForVisibilityOfElement(welcomeMessageHeader);
+        waitForElementToBeClickable(welcomeMessageHeader);
         return welcomeMessageHeader.getText();
 
     }

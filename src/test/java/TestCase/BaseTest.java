@@ -2,21 +2,23 @@ package TestCase;
 
 import PageObject.HomePage;
 import Utilities.ReadConfig;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
 import java.io.IOException;
-import java.time.Duration;
 
 public class BaseTest {
 
     protected WebDriver driver;
-
-    protected WebDriverWait wait;
 
     protected ReadConfig readConfig;
 
@@ -24,14 +26,38 @@ public class BaseTest {
 
     private String baseUrl;
 
+    private String browser;
+
 
     public void initializeDriver() {
 
-        driver = new ChromeDriver();
+        if (browser.contains("chrome")) {
+
+            ChromeOptions options = new ChromeOptions();
+
+            if (browser.contains("headless")) options.addArguments("headless");
+
+            driver = new ChromeDriver(options);
+            driver.manage().window().setSize(new Dimension(1440, 900));
+
+        } else if (browser.contains("firefox")) {
+
+            FirefoxOptions options = new FirefoxOptions();
+
+            if (browser.contains("headless"))  options.addArguments("-headless");
+
+            driver = new FirefoxDriver(options);
+            driver.manage().window().setSize(new Dimension(1440, 900));
+
+        } else if (browser.contains("internetexplorer")) {
+
+            InternetExplorerOptions options = new InternetExplorerOptions();
+
+            driver = new InternetExplorerDriver(options);
+
+        }
+
         driver.manage().window().maximize();
-
-
-        wait = new WebDriverWait(driver, Duration.ofSeconds(6));
 
     }
 
@@ -49,10 +75,12 @@ public class BaseTest {
 
     }
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public HomePage launchApplication() throws IOException {
 
-        setConfiguration();;
+        setConfiguration();
+
+        browser = System.getProperty("browser") == null ? readConfig.getBrowser().toLowerCase() : System.getProperty("browser").toLowerCase();
 
         initializeDriver();
         homePage = new HomePage(driver);
@@ -62,7 +90,7 @@ public class BaseTest {
 
     }
 
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     public void tearDown() {
 
         driver.quit();

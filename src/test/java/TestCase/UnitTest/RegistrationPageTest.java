@@ -31,7 +31,7 @@ public class RegistrationPageTest extends BaseTest {
 
     // Positive TestCases - Happy Path
 
-    @Test()
+    @Test(groups = {"smoke"})
     public void successfulRegistration() throws InterruptedException, IOException {
 
         email = getEmail();
@@ -53,18 +53,16 @@ public class RegistrationPageTest extends BaseTest {
             readConfig.setLoginPassword(password);
             readConfig.saveConfig();
 
-        } else {
-
-            Assert.assertEquals(successMessage, "Thank you for registering with Main Website Store.", "Registration unsuccessful");
-
         }
+
+        Assert.assertEquals(successMessage, "Thank you for registering with Main Website Store.", "Registration unsuccessful");
 
     }
 
     // Negative TestCases
 
     @Test(dependsOnMethods = "successfulRegistration")
-    public void existingEmailRegistration() throws InterruptedException, IOException {
+    public void existingEmailRegistration() throws InterruptedException {
 
         String existingEmail = readConfig.getLoginEmail();
 
@@ -75,19 +73,10 @@ public class RegistrationPageTest extends BaseTest {
         setZoom("50");
         registrationPage.createAccountButton();
 
-        boolean isPresent = registrationPage.isElementPresent(registrationPage.getTopAlertFindBy());
+        System.out.println(registrationPage.getTopAlertError());
 
-        if (isPresent) {
-
-            String errorMessage = registrationPage.getTopAlertError();
-
-            Assert.assertEquals(errorMessage, "There is already an account with this email address. If you are sure that it is your email address, click here to get your password and access your account.", "Should not be able to register with an already registed email: " + existingEmail);
-
-        } else {
-
-            Assert.assertTrue(isPresent, "Should not be able to register with an already registered email: " + existingEmail);
-
-        }
+        Assert.assertEquals(registrationPage.getTopAlertError(), "There is already an account with this email address. If you are sure that it is your email address, click here to get your password and access your account.",
+                "Should not be able to register with an already registered email: " + existingEmail);
 
     }
 
@@ -136,19 +125,9 @@ public class RegistrationPageTest extends BaseTest {
         setZoom("50");
         registrationPage.createAccountButton();
 
-        boolean isPresent = registrationPage.isElementPresent(registrationPage.getTopAlertFindBy());
+        String errorMessage = registrationPage.getTopAlertError();
 
-        if (isPresent) {
-
-            String errorMessage = registrationPage.getTopAlertError();
-
-            Assert.assertEquals(errorMessage, "First Name is not valid!", "First name should not contain whitespace: " + firstName);
-
-        } else {
-
-            Assert.assertTrue(isPresent, "Top alert error not shown! First name should not contain whitespace: " + firstName);
-
-        }
+        Assert.assertEquals(errorMessage, "First Name is not valid!", "First name should not contain whitespace: " + firstName);
 
     }
 
@@ -184,19 +163,9 @@ public class RegistrationPageTest extends BaseTest {
         setZoom("50");
         registrationPage.createAccountButton();
 
-        boolean isPresent = registrationPage.isElementPresent(registrationPage.getTopAlertFindBy());
+        String errorMessage = registrationPage.getTopAlertError();
 
-        if (isPresent) {
-
-            String errorMessage = registrationPage.getTopAlertError();
-
-            Assert.assertEquals(errorMessage, "First Name is not valid!", "First name should not contain number: " + firstName);
-
-        } else {
-
-            Assert.assertTrue(isPresent, "Top alert error not shown! First name should not contain number: " + firstName);
-
-        }
+        Assert.assertEquals(errorMessage, "First Name is not valid!", "First name should not contain number: " + firstName);
 
     }
 
@@ -231,19 +200,9 @@ public class RegistrationPageTest extends BaseTest {
         setZoom("50");
         registrationPage.createAccountButton();
 
-        boolean isPresent = registrationPage.isElementPresent(registrationPage.getTopAlertFindBy());
+        String errorMessage = registrationPage.getTopAlertError();
 
-        if (isPresent) {
-
-            String errorMessage = registrationPage.getTopAlertError();
-
-            Assert.assertEquals(errorMessage, "Last Name is not valid!", "Last name should not contain whitespace: " + lastName);
-
-        } else {
-
-            Assert.assertTrue(isPresent, "Top alert error not shown! Last name should not contain whitespace: " + lastName);
-
-        }
+        Assert.assertEquals(errorMessage, "Last Name is not valid!", "Last name should not contain whitespace: " + lastName);
 
     }
 
@@ -280,19 +239,9 @@ public class RegistrationPageTest extends BaseTest {
         setZoom("50");
         registrationPage.createAccountButton();
 
-        boolean isPresent = registrationPage.isElementPresent(registrationPage.getTopAlertFindBy());
+        String errorMessage = registrationPage.getTopAlertError();
 
-        if (isPresent) {
-
-            String errorMessage = registrationPage.getTopAlertError();
-
-            Assert.assertEquals(errorMessage, "Last Name is not valid!", "Last name should not contain number: " + lastName);
-
-        } else {
-
-            Assert.assertTrue(isPresent, "Top alert error not shown! Last name should not contain number: " + lastName);
-
-        }
+        Assert.assertEquals(errorMessage, "Last Name is not valid!", "Last name should not contain number: " + lastName);
 
     }
 
@@ -314,7 +263,7 @@ public class RegistrationPageTest extends BaseTest {
     }
 
     @Test
-    public void emailRegistrationDoesNotAllowSpace() throws InterruptedException {
+    public void emailRegistrationDoesNotAllowSpace() {
 
         email = getModifiedEmail(" ", "middle", 1);
 
@@ -430,23 +379,13 @@ public class RegistrationPageTest extends BaseTest {
         setZoom("50");
         registrationPage.createAccountButton();
 
-        boolean isPresent = registrationPage.isElementPresent(registrationPage.getEmailErrorFindBy());
+        String errorMessage = registrationPage.getEmailError();
 
-        if (isPresent) {
-
-            String errorMessage = registrationPage.getEmailError();
-
-            Assert.assertEquals(errorMessage, "Please enter a valid email address (Ex: johndoe@domain.com).", "Invalid Email should not be allowed: " + email);
-
-        } else {
-
-            Assert.assertTrue(isPresent, "Email error not shown! Invalid Email should not be allowed: " + email);
-
-        }
+        Assert.assertEquals(errorMessage, "Please enter a valid email address (Ex: johndoe@domain.com).", "Invalid Email should not be allowed: " + email);
 
     }
 
-    @Test
+    @Test(retryAnalyzer = Retry.class)
     public void blankPasswordRegistration() throws InterruptedException {
 
         email = getEmail();
@@ -520,19 +459,12 @@ public class RegistrationPageTest extends BaseTest {
         registrationPage.setPassword(customPassword);
         registrationPage.setConfirmationPassword(customPassword);
         setZoom("50");
-        registrationPage.createAccountButton();
+        MyAccountPage accountPage = registrationPage.createAccountButton();
 
-        boolean isPresent = registrationPage.isElementPresent(registrationPage.getPasswordErrorFindBy());
+        String registrationSuccessMessage = accountPage.getRegistrationSuccessMessage();
 
-        if (isPresent) {
-
-            Assert.assertFalse(isPresent, "Password error should not be present! Entered valid password: " + customPassword);
-
-        } else {
-
-            Assert.assertFalse(isPresent);
-
-        }
+        Assert.assertEquals(registrationSuccessMessage, "Thank you for registering with Main Website Store.",
+                "Should be able to create account with valid password: " + customPassword);
 
     }
 
@@ -570,20 +502,10 @@ public class RegistrationPageTest extends BaseTest {
         setZoom("50");
         registrationPage.createAccountButton();
 
-        boolean isPresent = registrationPage.isElementPresent(registrationPage.getConfirmationPasswordErrorFindBy());
+        String errorMessage = registrationPage.getConfirmationPasswordError();
 
-        if (isPresent) {
-
-            String errorMessage = registrationPage.getConfirmationPasswordError();
-
-            Assert.assertEquals(errorMessage, "Please enter the same value again.",
-                    "Password and confirmation password should match! Password: " + password + " Confirmation Password: " + confirmationPassword);
-
-        } else {
-
-            Assert.assertTrue(isPresent, "Confirmation error alert did not show up! Password and confirmation password should match! Password: "+ password + " Confirmation Password: " + confirmationPassword);
-
-        }
+        Assert.assertEquals(errorMessage, "Please enter the same value again.",
+                "Password and confirmation password should match! Password: " + password + " Confirmation Password: " + confirmationPassword);
 
     }
 
@@ -602,19 +524,9 @@ public class RegistrationPageTest extends BaseTest {
         setZoom("50");
         registrationPage.createAccountButton();
 
-        boolean isPresent = registrationPage.isElementPresent(registrationPage.getConfirmationPasswordErrorFindBy());
+        String errorMessage = registrationPage.getConfirmationPasswordError();
 
-        if (isPresent) {
-
-            String errorMessage = registrationPage.getConfirmationPasswordError();
-
-            Assert.assertEquals(errorMessage, "Please enter the same value again.", "Password and confirmation password should match! Password: " + password + " Confirmation Password: " + confirmationPassword);
-
-        } else {
-
-            Assert.assertTrue(isPresent, "Confirmation error alert did not show up! Password and confirmation password should match! Password: " + password + " Confirmation Password: " + confirmationPassword);
-
-        }
+        Assert.assertEquals(errorMessage, "Please enter the same value again.", "Password and confirmation password should match! Password: " + password + " Confirmation Password: " + confirmationPassword);
 
     }
 
@@ -648,7 +560,7 @@ public class RegistrationPageTest extends BaseTest {
     }
 
     @Test
-    public void getConsoleErrorLogsRegistration() {
+    public void consoleErrorLogsRegistration() {
 
         SoftAssert softAssert = new SoftAssert();
 

@@ -115,12 +115,14 @@ public class RegistrationPage extends BasePage {
 
     public String getFirstNameError() {
 
+        waitForVisibilityOfElement(firstNameError);
         return firstNameError.getText();
 
     }
 
     public String getLastNameError() {
 
+        waitForVisibilityOfElement(lastNameError);
         return lastNameError.getText();
 
     }
@@ -134,12 +136,14 @@ public class RegistrationPage extends BasePage {
 
     public String getPasswordError() {
 
+        waitForVisibilityOfElement(passwordError);
         return passwordError.getText();
 
     }
 
     public String getConfirmationPasswordError() {
 
+        waitForVisibilityOfElement(confirmationPasswordError);
         return confirmationPasswordError.getText();
 
     }

@@ -7,6 +7,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import java.util.List;
+
 public class LogInPage extends BasePage {
 
     @FindBy(id = "email")
@@ -41,12 +43,14 @@ public class LogInPage extends BasePage {
 
     public String getEmailError() {
 
+        waitForVisibilityOfElement(emailError);
         return emailError.getText();
 
     }
 
     public String getPasswordError() {
 
+        waitForVisibilityOfElement(passwordError);
         return passwordError.getText();
 
     }
@@ -83,6 +87,12 @@ public class LogInPage extends BasePage {
         forgotPasswordLink.click();
 
         return new ForgotPasswordPage(driver);
+
+    }
+
+    public By getTopAlertLocator() {
+
+        return topAlertLocator;
 
     }
 
