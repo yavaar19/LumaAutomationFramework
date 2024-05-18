@@ -55,4 +55,4 @@ The HTML report result will be placed in the 'Report' folder of the project. The
 When running in Firefox, there will also be errors as when the website is used on the Firefox browser, the concerning alerts are shown in different locations randomly which is another bug that the developers of the e-commerce application should fix.
 
 ## Project status
-I have so far implemented test automation for the 'Log In' page as well as the 'User Sign Up' page. I am currently on creating test cases for the 'My Account' page.
+I have so far implemented test automation for the 'Log In' page as well as the 'User Sign Up' page. I am currently creating test cases for the 'My Account' page.
