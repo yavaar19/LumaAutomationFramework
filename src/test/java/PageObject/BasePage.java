@@ -3,6 +3,7 @@ package PageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -22,12 +23,20 @@ public class BasePage {
     @FindBy(css = "span.logged-in")
     private WebElement welcomeMessageHeader;
 
+    @FindBy(css = "button.action.switch")
+    private WebElement dropDownWelcome;
+
+    @FindBy(xpath = "//a[text()='My Account']")
+    private WebElement myAccountDropDownButton;
+
     @FindBy(css = "a:not([rel='nofollow noopener sponsored'])")
     private List<WebElement> allLinks;
 
     protected WebDriver driver;
 
-    private WebDriverWait wait;
+    private final WebDriverWait wait;
+
+    private final Actions actions;
 
     private final By welcomeMessageHeaderLocator = By.cssSelector("span.logged-in");
 
@@ -36,6 +45,7 @@ public class BasePage {
 
         this.driver = driver;
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        actions = new Actions(driver);
         PageFactory.initElements(driver, this);
 
     }
@@ -65,9 +75,30 @@ public class BasePage {
 
     }
 
+    public MyAccountPage performActionClick(WebElement element) {
+
+        waitForElementToBeClickable(element);
+        actions.moveToElement(element).click().build().perform();
+
+        return new MyAccountPage(driver);
+
+    }
+
     public List<WebElement> getallLinks() {
 
         return allLinks;
+
+    }
+
+    public WebElement getDropDownWelcome() {
+
+        return dropDownWelcome;
+
+    }
+
+    public WebElement getMyAccountDropDownButton() {
+
+        return myAccountDropDownButton;
 
     }
 

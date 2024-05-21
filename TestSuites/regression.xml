@@ -5,10 +5,17 @@
         <listener class-name="TestCase.Listeners"/>
     </listeners>
     <test verbose="2" parallel="classes" preserve-order="true"
-          name="/Users/yavaar19/Desktop/Portfolio Project/LumaAutomationFramework/src/test">
+          name="Login and Registration Page">
         <classes>
             <class name="TestCase.UnitTest.LogInPageTest"/>
             <class name="TestCase.UnitTest.RegistrationPageTest"/>
+        </classes>
+    </test>
+
+    <test verbose="2" preserve-order="true"
+          name="Account Page">
+        <classes>
+            <class name="TestCase.UnitTest.MyAccountPageTest"/>
         </classes>
     </test>
 </suite>

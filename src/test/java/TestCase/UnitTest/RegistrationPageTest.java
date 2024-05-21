@@ -219,7 +219,6 @@ public class RegistrationPageTest extends BaseTest {
         setZoom("50");
         registrationPage.createAccountButton();
 
-        Thread.sleep(15000);
         String errorMessage = registrationPage.getTopAlertError();
 
         Assert.assertEquals(errorMessage, "Last Name is not valid!", "Last name should not contain special character: " + lastName);

@@ -170,7 +170,7 @@ public class LogInPageTest extends BaseTest {
     }
 
     @Test
-    public void RightEmailDifferentCapitalizationPasswordLogin() {
+    public void rightEmailDifferentCapitalizationPasswordLogin() {
 
         LogInPage logInPage = homePage.clickSignInHeaderButton();
 
